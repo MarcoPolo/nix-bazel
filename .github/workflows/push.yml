@@ -30,10 +30,8 @@ jobs:
       - name: Login to DockerHub Registry
         run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name: Build Docker image with Nix
-        working-directory: nix-bazel
         run: nix-build
       - name: Load image into Docker
-        working-directory: nix-bazel
         run: docker load < result
       - name: Push the latest Docker image
         run: docker push marcop010/nix-bazel:latest

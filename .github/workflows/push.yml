@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+jobs:
+  publish-nix-bazel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: cachix/install-nix-action@v8
+      # - run: sudo usermod -a -G nixbld runner
+      # - run: groups
+      # - run: sudo ls -lha /nix
+      # - run: sudo ls -lha /nix/store
+      # - name: Cache Nix
+      #   uses: actions/cache@v1
+      #   with:
+      #     path: /nix/store
+      #     key: nix-store
+      - run: sudo chown -R runner /nix/store
+      - run: sudo ls -lha /nix
+      - uses: cachix/cachix-action@v6
+        with:
+          name: nix-bazel-cache
+          signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
+      - run: sudo chown -R root /nix/store
+      - name: Login to DockerHub Registry
+        run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      - name: Build Docker image with Nix
+        working-directory: nix-bazel
+        run: nix-build
+      - name: Load image into Docker
+        working-directory: nix-bazel
+        run: docker load < result
+      - name: Push the latest Docker image
+        run: docker push marcop010/nix-bazel:latest

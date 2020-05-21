@@ -19,6 +19,7 @@ pkgs.dockerTools.buildImage {
   config = {
     Cmd = [ "/bin/sh" ];
     WorkingDir = "/app";
+    # Copied from https://github.com/NixOS/docker/blob/master/Dockerfile
     Env = [
       "ENV=/etc/profile"
       "USER=root"

@@ -9,19 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: cachix/install-nix-action@v8
-      # - run: sudo usermod -a -G nixbld runner
-      # - run: groups
-      # - run: sudo ls -lha /nix
-      # - run: sudo ls -lha /nix/store
-
-      # - run: sudo chown -R runner /nix/store
-      # - run: sudo ls -lha /nix
-      # - name: Cache Nix
-      #   uses: actions/cache@v1
-      #   with:
-      #     path: /nix/store
-      #     key: nix-store-1
-      # - run: sudo chown -R root /nix/store
       - uses: cachix/cachix-action@v6
         with:
           name: nix-bazel

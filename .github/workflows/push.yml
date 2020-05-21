@@ -24,9 +24,9 @@ jobs:
       # - run: sudo chown -R root /nix/store
       - uses: cachix/cachix-action@v6
         with:
-          name: nix-bazel-cache
+          name: nix-bazel
           signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
-          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+          # authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
       - name: Login to DockerHub Registry
         run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name: Build Docker image with Nix

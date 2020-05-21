@@ -13,18 +13,20 @@ jobs:
       # - run: groups
       # - run: sudo ls -lha /nix
       # - run: sudo ls -lha /nix/store
+
+      # - run: sudo chown -R runner /nix/store
+      # - run: sudo ls -lha /nix
       # - name: Cache Nix
       #   uses: actions/cache@v1
       #   with:
       #     path: /nix/store
-      #     key: nix-store
-      - run: sudo chown -R runner /nix/store
-      - run: sudo ls -lha /nix
+      #     key: nix-store-1
+      # - run: sudo chown -R root /nix/store
       - uses: cachix/cachix-action@v6
         with:
           name: nix-bazel-cache
           signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
-      - run: sudo chown -R root /nix/store
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
       - name: Login to DockerHub Registry
         run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
       - name: Build Docker image with Nix

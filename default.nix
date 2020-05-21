@@ -7,7 +7,7 @@ in with pkgs;
 pkgs.dockerTools.buildImage {
   name = "marcop010/nix-bazel";
   tag = "latest";
-  contents = [ bash nix bazel3 ];
+  contents = [ bash nix bazel3 coreutils ];
 
   config = {
     Cmd = [ "/bin/bash" ];
